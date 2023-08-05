@@ -1,0 +1,35 @@
+version: '3'
+services:
+  frontend:
+    build: 
+      context: ./public
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - chat-network  
+    depends_on:
+      - backend
+  backend:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URL=mongodb://database:27017/mydb
+    networks:
+      - chat-network
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      chat-network:
+        aliases:
+          - database
+networks: 
+  chat-network:
+    driver: bridge

@@ -7,6 +7,8 @@ const app = express();
 const socket = require("socket.io");
 require("dotenv").config();
 
+mongoose.set('strictQuery', true); 
+
 app.use(cors());
 app.use(express.json());
 
